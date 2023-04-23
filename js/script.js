@@ -1,5 +1,4 @@
-
-
+// This section of code selects the necessary HTML elements using their class names and stores them in variables for future use.
 const guessedLettersElement = document.querySelector(".guessed-letters");
 const guessLetterButton = document.querySelector(".guess");
 const letterInput = document.querySelector(".letter");
@@ -9,12 +8,12 @@ const remainingGuessesSpan = document.querySelector(".remaining span");
 const message = document.querySelector(".message");
 const playAgainButton = document.querySelector(".play-again");
 
-
-
+// These variables will be used to store the game data. The word to be guessed, the letters that have been guessed, and the remaining number of guesses.
 let word = "";
 let guessedLetters = [];
 let remainingGuesses = 10;
 
+// This is an array of possible words for the game. Each word is separated by a forward slash and consists of two parts.
 let wordList = [
   "apple/pie",
   "baseball/bat",
@@ -70,16 +69,11 @@ let wordList = [
   "zoo/animals"
 ];
 
-const getWord = async function () {
-  const randomIndex = Math.floor(Math.random() * wordList.length);
-  word = wordList[randomIndex];
-  placeholder(word);
-};
+// Define the placeholder function before the getWord function
 
-getWord();
-
+// This function takes in a word from the wordList array and converts it into an array of separate words. It then creates an array of placeholder letters to represent the word to be guessed.
 const placeholder = function (word) {
-  const separatedWordList = wordList.map(word => word.split(" "));
+  const separatedWordList = wordList.map((word) => word.split(" "));
   const placeholderLetters = [];
   for (const letter of word) {
     if (letter === "/") {
@@ -88,60 +82,62 @@ const placeholder = function (word) {
       placeholderLetters.push("_");
     }
   }
+  // The placeholderLetters array is joined and displayed as the initial state of the word in progress element.
   wordInProgress.innerText = placeholderLetters.join(" ");
 };
 
+// This function selects a random word from the wordList array and sets it as the word to be guessed. It then calls the placeholder function to update the display of the word in progress element.
+const getWord = async function () {
+  const randomIndex = Math.floor(Math.random() * wordList.length);
+  word = wordList[randomIndex];
+  placeholder(word);
+};
 
+// The getWord function is called to start the game with a randomly selected word from the wordList array.
+getWord();
+
+// This event listener is added to the guessLetterButton element and listens for a click. When clicked, it calls the validateInput function and passes the value of the letterInput element as an argument.
 guessLetterButton.addEventListener("click", function (e) {
   e.preventDefault();
-  // Empty message paragraph
   message.innerText = "";
-  // Let's grab what was entered in the input
   const guess = letterInput.value;
-  // Let's make sure that it is a single letter
   const goodGuess = validateInput(guess);
-
   if (goodGuess) {
-    // We've got a letter! Let's guess!
     makeGuess(guess);
   }
   letterInput.value = "";
 });
 
-
+// This function validates the input provided by the user. If the input is empty, too long, or not a letter, an appropriate error message is displayed. If the input is valid, the function returns the input.
 const validateInput = function (input) {
   const acceptedLetter = /[a-zA-Z]/;
   if (input.length === 0) {
-    // Is the input empty?
     message.innerText = "Please enter a letter.";
   } else if (input.length > 1) {
-    // Did you type more than one letter?
     message.innerText = "Please enter a single letter.";
   } else if (!input.match(acceptedLetter)) {
-    // Did you type a number, a special character or some other non letter thing?
     message.innerText = "Please enter a letter from A to Z.";
   } else {
-    // We finally got a single letter, omg yay
     return input;
   }
 };
 
+// This function takes in the user's guess as an argument. If the guess has already been made, an appropriate error message is displayed. If the guess is new, it is converted to uppercase and added to the guessedLetters array. The updateGuessesRemaining, showGuessedLetters, and updateWordInProgress functions are called to update the display.
 const makeGuess = function (guess) {
   guess = guess.toUpperCase();
   if (guessedLetters.includes(guess)) {
     message.innerText = "You already guessed that letter, silly. Try again.";
   } else {
     guessedLetters.push(guess);
-    console.log(guessedLetters);
     updateGuessesRemaining(guess);
     showGuessedLetters();
     updateWordInProgress(guessedLetters);
   }
 };
 
+// This function updates the display of the guessed letters by first clearing the list and then creating a new list item for each letter in the guessedLetters array.
 const showGuessedLetters = function () {
-  // Clear the list first
-  guessedLettersElement.innerHTML = "";
+  guessedLettersElement.innerHTML = ""; // Clear the list first
   for (const letter of guessedLetters) {
     const li = document.createElement("li");
     li.innerText = letter;
@@ -149,25 +145,39 @@ const showGuessedLetters = function () {
   }
 };
 
+// This function takes in the guessedLetters array as an argument and updates the display of the word in progress element. It creates a new array called revealWord that consists of either the guessed letter, an underscore, or a space for each letter in the word to be guessed. The revealWord array is then joined and displayed as the updated state of the word in progress element. If the entire word has been guessed, a win message is displayed and the startOver function is called.
 const updateWordInProgress = function (guessedLetters) {
   const wordUpper = word.toUpperCase();
   const wordArray = wordUpper.split("");
   const revealWord = [];
+
   for (const letter of wordArray) {
     if (letter === "/") {
       revealWord.push(" ");
     } else if (guessedLetters.includes(letter)) {
       revealWord.push(letter.toUpperCase());
     } else {
-      revealWord.push("●");
+      revealWord.push("_");
     }
-  }  wordInProgress.innerText = revealWord.join("");
-  checkIfWin();
+  }
+
+  wordInProgress.innerText = revealWord.join("");
+
+  const currentProgress = revealWord.join("").replace(/ /g, "/"); // Replace spaces back to slashes
+
+  if (wordUpper === currentProgress) {
+    message.classList.add("win");
+    message.innerHTML = (
+      `<p class="highlight">You guessed the correct word! Congrats!</p>`
+    );
+    startOver();
+  }
 };
+
+// This function takes in the user's guess as an argument and updates the remaining guesses display and message. If the guess is incorrect, the remainingGuesses variable is decremented by 1. If the remainingGuesses reaches 0, a game over message is displayed and the startOver function is called. If there is only 1 guess remaining, the display is updated to reflect this. The checkIfWin function is called at the end.
 const updateGuessesRemaining = function (guess) {
   const upperWord = word.toUpperCase();
   if (!upperWord.includes(guess)) {
-    // womp womp - bad guess, lose a chance
     message.innerText = `Sorry, the word has no ${guess}.`;
     remainingGuesses -= 1;
   } else {
@@ -182,16 +192,34 @@ const updateGuessesRemaining = function (guess) {
   } else {
     remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
   }
+  checkIfWin();
 };
 
-const checkIfWin = function () {
-  if (word.toUpperCase() === wordInProgress.innerText) {
-    message.classList.add("win");
-    message.innerHTML = `<p class="highlight">You guessed the correct word! Congrats!</p>`;
+// This function checks if the entire word has been guessed by comparing the word to be guessed with the revealWord array, which is created similarly to the updateWordInProgress function. If the entire word has been guessed, a win message is displayed and the startOver function is called.
 
+const checkIfWin = function () {
+  const wordUpper = word.toUpperCase();
+  const wordArray = wordUpper.split("");
+  const revealWord = [];
+  for (const letter of wordArray) {
+    if (letter === "/") {
+      revealWord.push(" ");
+    } else if (guessedLetters.includes(letter)) {
+      revealWord.push(letter.toUpperCase());
+    } else {
+      revealWord.push("●"); // The letters that haven't been guessed yet are replaced with dots.
+    }
+  }
+  if (wordUpper === revealWord.join("")) {
+    message.classList.add("win");
+    message.innerHTML = (
+      `<p class="highlight">You guessed the correct word! Congrats!</p>`
+    );
     startOver();
   }
 };
+
+// This function hides the guessLetterButton, remainingGuessesElement, and guessedLettersElement, and shows the playAgainButton when the game is over.
 
 const startOver = function () {
   guessLetterButton.classList.add("hide");
@@ -200,21 +228,19 @@ const startOver = function () {
   playAgainButton.classList.remove("hide");
 };
 
+// This event listener is added to the playAgainButton and listens for a click. When clicked, it resets all the game variables to their original values, calls the getWord function to select a new word, and shows the appropriate UI elements.
+
 playAgainButton.addEventListener("click", function () {
-  // reset all original values - grab new word
   message.classList.remove("win");
   guessedLetters = [];
   remainingGuesses = 8;
   remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
   guessedLettersElement.innerHTML = "";
   message.innerText = "";
-  // Grab a new word
   getWord();
 
-  // show the right UI elements
   guessLetterButton.classList.remove("hide");
   playAgainButton.classList.add("hide");
   remainingGuessesElement.classList.remove("hide");
   guessedLettersElement.classList.remove("hide");
 });
-
