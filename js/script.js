@@ -1,4 +1,4 @@
-let guessedLettersElement = document.querySelector(".guessed-letters");
+const guessedLettersElements = document.querySelector(".guessed-letters");
 const guessLetterButton = document.querySelector(".guess");
 const letterInput = document.querySelector(".letter");
 const wordInProgress = document.querySelector(".word-in-progress");
