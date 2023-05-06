@@ -89,7 +89,6 @@ const getWord = async function () {
 getWord();
 
 // This event listener is added to the guessLetterButton element and listens for a click. When clicked, it calls the validateInput function and passes the value of the letterInput element as an argument.
-const message = document.querySelector(".message");
 const letterInput = document.querySelector(".letter");
 const guessLetterButton = document.querySelector(".guess");
 guessLetterButton.addEventListener("click", function (e) {
