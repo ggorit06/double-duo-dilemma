@@ -1,4 +1,4 @@
-const guessedLettersElements = document.querySelector(".guessed-letters");
+
 const guessLetterButton = document.querySelector(".guess");
 const letterInput = document.querySelector(".letter");
 const wordInProgress = document.querySelector(".word-in-progress");
@@ -135,6 +135,7 @@ const makeGuess = function (guess) {
 };
 
 // This function updates the display of the guessed letters by first clearing the list and then creating a new list item for each letter in the guessedLetters array.
+const guessedLettersElements = document.querySelector(".guessed-letters");
 const showGuessedLetters = function () {
   guessedLettersElement.innerHTML = ""; // Clear the list first
   for (const letter of guessedLetters) {
