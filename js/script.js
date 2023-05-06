@@ -1,3 +1,11 @@
+const guessedLettersElements = document.querySelector(".guessed-letters");
+const guessLetterButton = document.querySelector(".guess");
+const letterInput = document.querySelector(".letter");
+const wordInProgress = document.querySelector(".word-in-progress");
+const remainingGuessesElement = document.querySelector(".remaining");
+const remainingGuessesSpan = document.querySelector(".remaining span");
+const message = document.querySelector(".message");
+const playAgainButton = document.querySelector(".play-again");
 
 // These variables will be used to store the game data. The word to be guessed, the letters that have been guessed, and the remaining number of guesses.
 let word = "";
@@ -131,7 +139,6 @@ const makeGuess = function (guess) {
 };
 
 // This function updates the display of the guessed letters by first clearing the list and then creating a new list item for each letter in the guessedLetters array.
-const guessedLettersElement = document.querySelector(".guessed-letters");
 const showGuessedLetters = function () {
   guessedLettersElement.innerHTML = ""; // Clear the list first
   for (const letter of guessedLetters) {
