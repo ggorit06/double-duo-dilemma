@@ -1,11 +1,3 @@
-const guessedLettersElements = document.querySelector(".guessed-letters");
-const guessLetterButton = document.querySelector(".guess");
-const letterInput = document.querySelector(".letter");
-const wordInProgress = document.querySelector(".word-in-progress");
-const remainingGuessesElement = document.querySelector(".remaining");
-const remainingGuessesSpan = document.querySelector(".remaining span");
-const message = document.querySelector(".message");
-const playAgainButton = document.querySelector(".play-again");
 
 // These variables will be used to store the game data. The word to be guessed, the letters that have been guessed, and the remaining number of guesses.
 let word = "";
