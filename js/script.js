@@ -1,4 +1,3 @@
-// This section of code selects the necessary HTML elements using their class names and stores them in variables for future use.
 const guessedLettersElement = document.querySelector(".guessed-letters");
 const guessLetterButton = document.querySelector(".guess");
 const letterInput = document.querySelector(".letter");
