@@ -1,9 +1,4 @@
 
-// These variables will be used to store the game data. The word to be guessed, the letters that have been guessed, and the remaining number of guesses.
-let word = "";
-let guessedLetters = [];
-let remainingGuesses = 10;
-
 // This is an array of possible words for the game. Each word is separated by a forward slash and consists of two parts.
 let wordList = [
   "apple/pie",
