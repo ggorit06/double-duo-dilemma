@@ -60,12 +60,6 @@ let wordList = [
   "zoo/animals"
 ];
 
-// Define the placeholder function before the getWord function
-
-let word = "";
-let guessedLetters = [];
-let remainingGuesses = 10;
-
 // This function takes in a word from the wordList array and converts it into an array of separate words. It then creates an array of placeholder letters to represent the word to be guessed.
 const placeholder = function (word) {
   const placeholderLetters = [];
