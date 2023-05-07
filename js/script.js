@@ -1,3 +1,11 @@
+const guessedLettersElemental = document.querySelector(".guessed-letters");
+const guessLetterButton = document.querySelector(".guess");
+const letterInput = document.querySelector(".letter");
+const wordInProgress = document.querySelector(".word-in-progress");
+const remainingGuessesElement = document.querySelector(".remaining");
+const remainingGuessesSpan = document.querySelector(".remaining span");
+const message = document.querySelector(".message");
+const playAgainButton = document.querySelector(".play-again");
 
 // These variables will be used to store the game data. The word to be guessed, the letters that have been guessed, and the remaining number of guesses.
 let word = "";
@@ -64,7 +72,6 @@ let wordList = [
 
 // This function takes in a word from the wordList array and converts it into an array of separate words. It then creates an array of placeholder letters to represent the word to be guessed.
 const placeholder = function (word) {
-  const separatedWordList = wordList.map((word) => word.split(" "));
   const placeholderLetters = [];
   for (const letter of word) {
     if (letter === "/") {
@@ -89,9 +96,6 @@ const getWord = async function () {
 getWord();
 
 // This event listener is added to the guessLetterButton element and listens for a click. When clicked, it calls the validateInput function and passes the value of the letterInput element as an argument.
-const message = document.querySelector(".message");
-const letterInput = document.querySelector(".letter");
-const guessLetterButton = document.querySelector(".guess");
 guessLetterButton.addEventListener("click", function (e) {
   e.preventDefault();
   message.innerText = "";
@@ -170,7 +174,6 @@ const updateWordInProgress = function (guessedLetters) {
 };
 
 // This function takes in the user's guess as an argument and updates the remaining guesses display and message. If the guess is incorrect, the remainingGuesses variable is decremented by 1. If the remainingGuesses reaches 0, a game over message is displayed and the startOver function is called. If there is only 1 guess remaining, the display is updated to reflect this. The checkIfWin function is called at the end.
-const remainingGuessesSpan = document.querySelector(".remaining span");
 const updateGuessesRemaining = function (guess) {
   const upperWord = word.toUpperCase();
   if (!upperWord.includes(guess)) {
@@ -216,8 +219,6 @@ const checkIfWin = function () {
 };
 
 // This function hides the guessLetterButton, remainingGuessesElement, and guessedLettersElement, and shows the playAgainButton when the game is over.
-const playAgainButton = document.querySelector(".play-again");
-const remainingGuessesElement = document.querySelector(".remaining");
 const startOver = function () {
   guessLetterButton.classList.add("hide");
   remainingGuessesElement.classList.add("hide");
