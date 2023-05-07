@@ -1,11 +1,3 @@
-const guessedLettersElemental = document.querySelector(".guessed-letters");
-const guessLetterButton = document.querySelector(".guess");
-const letterInput = document.querySelector(".letter");
-const wordInProgress = document.querySelector(".word-in-progress");
-const remainingGuessesElement = document.querySelector(".remaining");
-const remainingGuessesSpan = document.querySelector(".remaining span");
-const message = document.querySelector(".message");
-const playAgainButton = document.querySelector(".play-again");
 
 // These variables will be used to store the game data. The word to be guessed, the letters that have been guessed, and the remaining number of guesses.
 let word = "";
@@ -70,6 +62,10 @@ let wordList = [
 
 // Define the placeholder function before the getWord function
 
+let word = "";
+let guessedLetters = [];
+let remainingGuesses = 10;
+
 // This function takes in a word from the wordList array and converts it into an array of separate words. It then creates an array of placeholder letters to represent the word to be guessed.
 const placeholder = function (word) {
   const placeholderLetters = [];
@@ -96,6 +92,9 @@ const getWord = async function () {
 getWord();
 
 // This event listener is added to the guessLetterButton element and listens for a click. When clicked, it calls the validateInput function and passes the value of the letterInput element as an argument.
+const message = document.querySelector(".message");
+const letterInput = document.querySelector(".letter");
+const guessLetterButton = document.querySelector(".guess");
 guessLetterButton.addEventListener("click", function (e) {
   e.preventDefault();
   message.innerText = "";
